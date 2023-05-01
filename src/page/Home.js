@@ -2,9 +2,11 @@ import React , {useEffect, useState} from 'react'
 import ExpenseFrom from '../components/ExpenseFrom';
 import Reminders from '../components/Reminders';
 import { remove ,ref } from 'firebase/database';
-import { db } from '../firebase';
+import { db ,database } from '../firebase';
 import{uid}from "uid";
-import { doc, updateDoc, deleteField , deleteDoc } from "firebase/firestore";
+import { doc, updateDoc, deleteField , deleteDoc,  } from "firebase/firestore";
+import { app } from '../firebase';
+import 'firebase/database'; 
 
 
 
@@ -69,13 +71,23 @@ async function sendingDate(remainder){
  }
  const removeHandler = async (id) => {
    const filteredRemainders =  reminderData.filter((elem) => elem.id !== id)
-   setRemainderData(filteredRemainders);
-   await deleteDoc(doc(db, id, ));
+ 
+ 
+  setRemainderData(filteredRemainders);
+   const itemRef=ref( db ,`reminder/${id}`)
+   await remove(itemRef);
+  
+}
+
+
+
+
+
    
  
 
   
- }
+ 
  
  useEffect(()=>{
    getingdata()
